@@ -63,6 +63,22 @@ app.get('/books/book/:id', async(req,res)=>{
     }
 })
 
+//API : Update a Book by ID
+app.put('/books/update_book/:id', async (req,res)=>{
+    try {
+        //Check if the parameters are not passed
+        if(!req.body.title || !req.body.author || !req.body.publishYear) return res.status(400).send({message: 'Bad request, Please send all the fields'})
+        
+        const {id} = req.params ;
+        const book = await Book.findByIdAndUpdate(id, req.body);
+        if(!book) return res.status(404).send({message: 'Book Not Found..'})
+        res.status(200).send({ message: 'Update Successfully....'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({message : error.message});    
+    }
+})
+
 
 //Connect to MongoDB via mongoose ORM
 const connectToMongoDBDatabase =async()=>{
