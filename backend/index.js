@@ -47,6 +47,20 @@ app.get('/books/all_books', async(req,res)=>{
         console.log(error);
         res.status(500).send({message: error.message})
     }
+});
+
+// API : Get a Book by Id (GET)
+app.get('/books/book/:id', async(req,res)=>{
+    try {
+        const {id} = req.params;  //fetch book id passed in query URL
+        const book = await Book.findById(id); // Find a book by Id
+        //If no books return custom message
+        if(!book || book.length === 0) return res.status(200).send({message: 'No Book Found....'}) 
+        res.status(200).send(book);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: error.message});   
+    }
 })
 
 
