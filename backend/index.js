@@ -38,6 +38,17 @@ app.post('/books/create_new', async(req,res)=>{
     }
 })
 
+//API: Read all the books (GET)
+app.get('/books/all_books', async(req,res)=>{
+    try {
+        const allBooks = await Book.find({});
+        res.status(200).send(allBooks);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: error.message})
+    }
+})
+
 
 //Connect to MongoDB via mongoose ORM
 const connectToMongoDBDatabase =async()=>{
