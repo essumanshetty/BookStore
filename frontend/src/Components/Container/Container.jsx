@@ -1,6 +1,7 @@
 import React from "react";
 
-function Container() {
+function Container(props) {
+  const {handleViewAllBooks} = props;
   return (
     <div className="hero flex grow items-center justify-center text-white">
       <div className="flex flex-col items-center p-2">
@@ -11,8 +12,9 @@ function Container() {
           className="mt-4 bg-indigo-600 hover:bg-indigo-500
         rounded-lg py-2 px-8 
         "
+        onClick={handleViewAllBooks}
         >
-          Browse
+          View All Books
         </button>
       </div>
     </div>
