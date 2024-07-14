@@ -13,3 +13,23 @@
     object-fit: cover;
     background-blend-mode: overlay;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    padding: 8px 0px;
+    text-align: center;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  tbody tr:hover {
+    background-color: #333;
+    color: #ddd;
+  }
