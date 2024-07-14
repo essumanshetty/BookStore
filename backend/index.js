@@ -1,12 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from 'cors';
 import { PORT, connectionString } from "./config.js";
 import bookRoute from "./routes/bookRoute.js";
 const app = express();
 
 app.use(express.json()); // middleware used to parse the request body
+app.use(cors());
 //First api
-
 app.use("/books", bookRoute); //Refactor all Book route to seperate file
 
 app.get("/", (req, res) => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <div className="flex justify-between items-center shadow py-2 px-1 bg-white">
-      <div class="container-fluid">
+      <div className="container-fluid">
         <Link to="/">
           <img src={Logo} alt="Logo" className="h-10 inline-block" />
           <span className=""> Book Store </span>
