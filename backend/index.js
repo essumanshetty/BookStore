@@ -79,6 +79,19 @@ app.put('/books/update_book/:id', async (req,res)=>{
     }
 })
 
+//API: Delete a Book By ID
+app.delete('/books/delete_book/:id', async(req,res)=>{
+    try {
+        const {id} =req.params;
+        const book = await Book.findByIdAndDelete(id);
+        if(!book) return res.status(200).send({message: 'No Books Found....'})
+        return res.status(200).send({message: 'Book Deleted successfully...'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({message: error.message})
+    }
+})
+
 
 //Connect to MongoDB via mongoose ORM
 const connectToMongoDBDatabase =async()=>{
