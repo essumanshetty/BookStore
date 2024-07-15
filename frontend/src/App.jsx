@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "./Components/Header";
-import Container from "./Components/Container/Container";
+import Container from "./Container/Container";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import ViewAllBooks from "./Components/Container/ViewAllBooks";
+import ViewAllBooks from "./Container/ViewAllBooks";
 
 function App() {
   const navigate = useNavigate();
