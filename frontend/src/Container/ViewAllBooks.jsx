@@ -1,20 +1,21 @@
 import React from "react";
 import SnackBar from "../Components/SnackBar";
+import { Link } from "react-router-dom";
 const url = import.meta.env.VITE_API_URL;
 
 export default function ViewAllBooks() {
   const [books, setBooks] = React.useState([]);
   const [showSnackBar, setShowSnackBar] = React.useState(false);
-  const [message, setMessage] = React.useState('');
+  const [message, setMessage] = React.useState("");
 
   //Show and Hide SnackBar, user messgae
-  const toggleShowSnackBar =(show)=>{
+  const toggleShowSnackBar = (show) => {
     setShowSnackBar(show);
     setTimeout(() => {
       setShowSnackBar(false); //Close SnackBar after 2seconds
-      setMessage('')  //Reset Error Message
+      setMessage(""); //Reset Error Message
     }, 2000);
-  }
+  };
 
   //Use use callback to memoize function
   const getAllBooks = React.useCallback(() => {
@@ -41,9 +42,9 @@ export default function ViewAllBooks() {
         method: "DELETE",
       });
       const data = await response.json();
-      setMessage(data.message); 
+      setMessage(data.message);
       toggleShowSnackBar(true);
-      getAllBooks()();  //After Successsfull Deletion Show Updated Book List
+      getAllBooks()(); //After Successsfull Deletion Show Updated Book List
     } catch (error) {
       console.log(error);
     }
@@ -54,13 +55,19 @@ export default function ViewAllBooks() {
   return (
     <div className="m-2">
       <SnackBar
-        showSnackBar ={showSnackBar}
-        toggleShowSnackBar = {toggleShowSnackBar}
-        message = {message}
-        setMessage ={setMessage}
+        showSnackBar={showSnackBar}
+        toggleShowSnackBar={toggleShowSnackBar}
+        message={message}
+        setMessage={setMessage}
       />
-      <div className="py-5">
+      <div className="flex justify-between py-5">
         <h3 className="text-2xl ml-1">View All Books</h3>
+        <Link
+          to="/add_book"
+          className="rounded-md px-3 py-2 text-sm bg-gray-900  font-medium hover:bg-gray-500 text-white"
+        >
+          Add Book
+        </Link>
       </div>
       <table className="bg-white border-2">
         <thead className="bg-indigo-300">

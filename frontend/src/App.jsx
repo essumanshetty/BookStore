@@ -3,6 +3,7 @@ import Header from "./Components/Header";
 import Container from "./Container/Container";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import ViewAllBooks from "./Container/ViewAllBooks";
+import AddBook from "./Container/AddBook";
 
 function App() {
   const navigate = useNavigate();
@@ -12,12 +13,15 @@ function App() {
   }
 
   return (
-    <div className="full-page bg-slate-100">
-      <div className="mx-auto">
-        <Header />
+    <div className="container full-page">
+      <div className="header-section">
+        <Header/>
+      </div>
+      <div className="content">
         <Routes>
           <Route path="/" element={<Container handleViewAllBooks={handleViewAllBooks}/>} />
           <Route path="/view_all_books" element={<ViewAllBooks />} />
+          <Route path="/add_book" element={<AddBook />} />
         </Routes>
       </div>
     </div>

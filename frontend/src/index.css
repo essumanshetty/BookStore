@@ -2,16 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.full-page {
-    height: 100vh;
+html, body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
+
 .hero {
-    height: 90.7vh;
-    background-image: url('./assets/library.avif'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
-    object-fit: cover;
-    background-blend-mode: overlay;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-image: url('./assets/library.avif'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  background-blend-mode: overlay;
 }
 
 table {
@@ -39,4 +43,10 @@ table {
     bottom: 15px;
     left: 30%;
     width: 500px;
+  }
+
+  
+  label::after{
+    content: '*';
+    color: tomato;
   }
