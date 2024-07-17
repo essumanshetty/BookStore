@@ -6,7 +6,7 @@ function SnackBar(props) {
     <>
       {showSnackBar && (
         <div
-          className="alert bg-lime-400 py-3 px-3
+          className="alert bg-black text-white py-3 px-3
      flex justify-between shadow-xl rounded"
         >
           <p>{message}</p>

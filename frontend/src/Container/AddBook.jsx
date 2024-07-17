@@ -1,13 +1,86 @@
+import React from "react";
+import useSnackBar from "../hooks/useSnackBar";
+import SnackBar from "../Components/SnackBar";
+
 export default function AddBook() {
+  const [showSnackBar, message, setMessageHandler, toggleShowSnackBar] =
+    useSnackBar();
+  const [bookData, setBookData] = React.useState({
+    title: "",
+    author: "",
+    year: "",
+  });
+  const { title, author, year } = bookData; //Destructure from state
+
+  //Update state variable with handler
+  const handleInputData = (event) => {
+    const { name, value } = event.target;
+    setBookData({
+      ...bookData,
+      [name]: value,
+    });
+  };
+
+  //API Call to Create a Book
+  async function createBook(formData) {
+    try {
+      const url = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${url}/books/create_new`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+        }),
+      });
+      const data = await response.json();
+      setMessageHandler("Book Created Successfully...");
+      toggleShowSnackBar(true);
+    } catch (error) {
+      console.log(error);
+      setMessageHandler("Something went wrong.....");
+      toggleShowSnackBar(true);
+    }
+  }
+
+  //Validate Inputs
+  function validateInputs() {
+    if (!title || !author || !year) {
+      setMessageHandler("Please Check Your Inputs.....");
+      toggleShowSnackBar(true);
+      return;
+    }
+
+    if (year?.length !== 4) {
+      setMessageHandler("Year should be 4 digit");
+      toggleShowSnackBar(true);
+      return;
+    }
+
+    //If all the validation holds good, call api
+    createBook({
+      title: title,
+      author: author,
+      publishYear: Number(year),
+    });
+  }
+
+  //On SUbmit validate input and get values of form
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    const title = event.target[0].value;
-    const author = event.target[1].value;
-    const year = event.target[2].value;
-    console.log(title, author, year);
+    validateInputs();
   };
+
   return (
     <>
+      <SnackBar
+        showSnackBar={showSnackBar}
+        toggleShowSnackBar={toggleShowSnackBar}
+        message={message}
+        setMessage={setMessageHandler}
+      />
       <div className="justify-center">
         <div className="mt-8 px-10 py-10 sm:mx-auto border-2 shadow-2xl sm:max-w-sm bg-white">
           <div className="">
@@ -25,6 +98,8 @@ export default function AddBook() {
               </label>
               <div className="mt-2">
                 <input
+                  value={title}
+                  onChange={handleInputData}
                   id="title"
                   name="title"
                   type="text"
@@ -47,6 +122,8 @@ export default function AddBook() {
               </div>
               <div className="mt-2">
                 <input
+                  value={author}
+                  onChange={handleInputData}
                   id="author"
                   name="author"
                   type="text"
@@ -68,6 +145,8 @@ export default function AddBook() {
               </div>
               <div className="mt-2">
                 <input
+                  value={year}
+                  onChange={handleInputData}
                   id="year"
                   name="year"
                   type="number"
