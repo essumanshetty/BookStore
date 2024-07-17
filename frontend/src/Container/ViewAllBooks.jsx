@@ -1,21 +1,12 @@
 import React from "react";
 import SnackBar from "../Components/SnackBar";
 import { Link } from "react-router-dom";
+import useSnackBar from "../hooks/useSnackBar";
 const url = import.meta.env.VITE_API_URL;
 
 export default function ViewAllBooks() {
   const [books, setBooks] = React.useState([]);
-  const [showSnackBar, setShowSnackBar] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-
-  //Show and Hide SnackBar, user messgae
-  const toggleShowSnackBar = (show) => {
-    setShowSnackBar(show);
-    setTimeout(() => {
-      setShowSnackBar(false); //Close SnackBar after 2seconds
-      setMessage(""); //Reset Error Message
-    }, 2000);
-  };
+  const [showSnackBar, message, setMessageHandler, toggleShowSnackBar] = useSnackBar();
 
   //Use use callback to memoize function
   const getAllBooks = React.useCallback(() => {
@@ -27,6 +18,8 @@ export default function ViewAllBooks() {
         setBooks(data);
       } catch (error) {
         console.log(error);
+        setMessageHandler("Something Went wrong.....");
+        toggleShowSnackBar(true);
       }
     };
   }, []);
@@ -42,11 +35,13 @@ export default function ViewAllBooks() {
         method: "DELETE",
       });
       const data = await response.json();
-      setMessage(data.message);
+      setMessageHandler(data.message);
       toggleShowSnackBar(true);
       getAllBooks()(); //After Successsfull Deletion Show Updated Book List
     } catch (error) {
       console.log(error);
+      setMessageHandler("Something Went Wrong....");
+      toggleShowSnackBar(true);
     }
   };
 
@@ -58,7 +53,7 @@ export default function ViewAllBooks() {
         showSnackBar={showSnackBar}
         toggleShowSnackBar={toggleShowSnackBar}
         message={message}
-        setMessage={setMessage}
+        setMessage={setMessageHandler}
       />
       <div className="flex justify-between py-5">
         <h3 className="text-2xl ml-1">View All Books</h3>
