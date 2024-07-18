@@ -13,7 +13,7 @@ export default function ViewAllBooks() {
     //Get All Books from DB
     return async function fetchAllBooks() {
       try {
-        const response = await fetch(`/books/all_books/`);
+        const response = await fetch(`${url}/books/all_books/`);
         const data = await response.json();
         setBooks(data);
       } catch (error) {
