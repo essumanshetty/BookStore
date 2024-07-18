@@ -9,9 +9,15 @@ const app = express();
 
 const PORT = process.env.PORT;
 const connectionString = process.env.CONNECTION_STRING;
+const frontEndAppUrl = process.env.FRONTEND_APP_URL;
 
 app.use(express.json()); // middleware used to parse the request body
-app.use(cors());
+app.use(cors(
+  {
+    origin: frontEndAppUrl,
+    methods: "GET,PUT,POST,DELETE",
+  }
+));
 //First api
 app.use("/books", bookRoute); //Refactor all Book route to seperate file
 
