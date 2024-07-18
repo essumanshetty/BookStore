@@ -2,14 +2,20 @@ import React from "react";
 import useSnackBar from "../hooks/useSnackBar";
 import SnackBar from "../Components/SnackBar";
 
-export default function AddBook(props) {
+export default function AddBook() {
   const [showSnackBar, message, setMessageHandler, toggleShowSnackBar] =
     useSnackBar();
 
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const titleb = params.get("titleb")
+  const authorb = params.get("authorb")
+  const yearb = params.get("yearb")
+
   const [bookData, setBookData] = React.useState({
-    title: "",
-    author: "",
-    year: "",
+    title: titleb,
+    author: authorb,
+    year: yearb,
   });
 
   const { title, author, year } = bookData; //Destructure from state
@@ -31,12 +37,12 @@ export default function AddBook(props) {
     });
   };
 
-  //API Call to Create a Book
-  async function createBook(formData) {
+  //API Call to Update a Book
+  async function updateBook(formData) {
     try {
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${url}/books/create_new`, {
-        method: "POST",
+      const response = await fetch(`${url}/books/update_book/${formData?.id}`, {
+        method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -46,7 +52,7 @@ export default function AddBook(props) {
         }),
       });
       const data = await response.json();
-      setMessageHandler("Book Created Successfully...");
+      setMessageHandler("Book Updated Successfully...");
       toggleShowSnackBar(true);
       resetBookStateAfterSubmit();
     } catch (error) {
@@ -71,7 +77,8 @@ export default function AddBook(props) {
     }
 
     //If all the validation holds good, call api
-    createBook({
+    updateBook({
+    id : id,
       title: title,
       author: author,
       publishYear: Number(year),
@@ -93,13 +100,13 @@ export default function AddBook(props) {
         setMessage={setMessageHandler}
       />
       <div className="justify-center">
-      <div className="flex justify-between py-3">
-        <h3 className="text-2xl ml-1">Add Book</h3>
-      </div>
+        <div className="flex justify-between py-3">
+          <h3 className="text-2xl ml-1">Edit Book</h3>
+        </div>
         <div className="mt-3 px-10 py-8 sm:mx-auto border-2 shadow-2xl sm:max-w-sm bg-white">
           <div className="">
             <h2 className="pb-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Enter Book Details
+              Update Book Details
             </h2>
           </div>
           <form onSubmit={onSubmitHandler} className="space-y-6">
@@ -179,7 +186,7 @@ export default function AddBook(props) {
                 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 
                 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Create
+                Update
               </button>
             </div>
           </form>

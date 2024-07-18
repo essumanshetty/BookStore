@@ -1,13 +1,13 @@
 import React from "react";
 import SnackBar from "../Components/SnackBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useSnackBar from "../hooks/useSnackBar";
 const url = import.meta.env.VITE_API_URL;
 
 export default function ViewAllBooks() {
   const [books, setBooks] = React.useState([]);
   const [showSnackBar, message, setMessageHandler, toggleShowSnackBar] = useSnackBar();
-
+  const navigate = useNavigate();
   //Use use callback to memoize function
   const getAllBooks = React.useCallback(() => {
     //Get All Books from DB
@@ -45,6 +45,10 @@ export default function ViewAllBooks() {
     }
   };
 
+  const handleEdit =(id, title, author, year)=>{
+    navigate(`/edit_book?id=${id}&titleb=${title}&authorb=${author}&yearb=${year}`)
+  }
+
   if (!books || books.length === 0) return <div>No Books Found</div>;
 
   return (
@@ -80,7 +84,9 @@ export default function ViewAllBooks() {
               <td>{book.author}</td>
               <td>{book.publishYear}</td>
               <td>
-                <button className="mr-5 text-indigo-500 hover:text-xl">
+                <button className="mr-5 text-indigo-500 hover:text-xl"
+                  onClick={()=>handleEdit(book._id, book.title, book.author, book.publishYear)}
+                >
                   <i className="fa-regular fa-pen-to-square"></i>
                 </button>
                 <button
