@@ -12,12 +12,14 @@ const connectionString = process.env.CONNECTION_STRING;
 const frontEndAppUrl = process.env.FRONTEND_APP_URL;
 
 app.use(express.json()); // middleware used to parse the request body
-app.use(cors(
-  {
-    origin: frontEndAppUrl,
-    methods: "GET,PUT,POST,DELETE",
-  }
-));
+
+app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //First api
 app.use("/books", bookRoute); //Refactor all Book route to seperate file
 
