@@ -1,18 +1,21 @@
 import React from "react";
-// import axios from 'axios';
 import SnackBar from "../Components/SnackBar";
+import Loader from "../Components/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import useSnackBar from "../hooks/useSnackBar";
 const url = import.meta.env.VITE_API_URL;
 
 export default function ViewAllBooks() {
   const [books, setBooks] = React.useState([]);
+  const [showLoader, setShowLoader] = React.useState(false);
+
   const [showSnackBar, message, setMessageHandler, toggleShowSnackBar] = useSnackBar();
   const navigate = useNavigate();
   //Use use callback to memoize function
   const getAllBooks = React.useCallback(() => {
     //Get All Books from DB
     return async function fetchAllBooks() {
+      setShowLoader(true);
       try {
         const response = await fetch(`${url}/books/all_books/`);
         // const response = await axios.get(`${url}/books/all_books`)
@@ -22,6 +25,8 @@ export default function ViewAllBooks() {
         console.log(error);
         setMessageHandler("Something Went wrong.....");
         toggleShowSnackBar(true);
+      }finally{
+        setShowLoader(false)
       }
     };
   }, []);
@@ -50,6 +55,8 @@ export default function ViewAllBooks() {
   const handleEdit =(id, title, author, year)=>{
     navigate(`/edit_book?id=${id}&titleb=${title}&authorb=${author}&yearb=${year}`)
   }
+
+  if(showLoader) return <Loader/> ;
 
   if (!books || books.length === 0) return <div>No Books Found</div>;
 
