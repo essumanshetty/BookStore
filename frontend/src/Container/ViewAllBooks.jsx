@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import SnackBar from "../Components/SnackBar";
 import { Link, useNavigate } from "react-router-dom";
 import useSnackBar from "../hooks/useSnackBar";
@@ -13,7 +14,8 @@ export default function ViewAllBooks() {
     //Get All Books from DB
     return async function fetchAllBooks() {
       try {
-        const response = await fetch(`${url}/books/all_books/`);
+        // const response = await fetch(`${url}/books/all_books/`);
+        const response = await axios.get(`${url}/books/all_books`)
         const data = await response.json();
         setBooks(data);
       } catch (error) {
