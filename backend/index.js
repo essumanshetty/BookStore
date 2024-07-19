@@ -13,7 +13,8 @@ const frontEndAppUrl = process.env.FRONTEND_APP_URL;
 
 app.use(express.json()); // middleware used to parse the request body
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: frontEndAppUrl, optionsSuccessStatus: 200 }));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
