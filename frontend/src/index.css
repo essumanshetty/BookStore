@@ -61,6 +61,7 @@ table {
     justify-content: center;
     align-items: center;
     background-color: #fff;
+    flex-direction: column;
   }
   .loader {
     width: 48px;
