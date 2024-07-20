@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import ViewAllBooks from "./Container/ViewAllBooks";
 import AddBook from "./Container/AddBook";
 import EditBook from './Container/EditBook';
+const url = import.meta.env.VITE_API_URL;
 
 function App() {
   const navigate = useNavigate();
@@ -12,6 +13,21 @@ function App() {
   const handleViewAllBooks = () => {
     navigate("/view_all_books");
   };
+
+
+  //Just hits the backend server, noticed server taking longer than usual
+  React.useEffect(()=>{
+    async function hitTheServer(){
+      try {
+        const response = await fetch(`${url}/`);
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error) 
+      }
+    }
+    hitTheServer(); 
+  },[1]); //Execute only once, 
 
   return (
     <div className="container full-page">
